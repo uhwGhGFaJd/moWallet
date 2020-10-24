@@ -19,7 +19,7 @@ public class CreateUser {
     @NotBlank(message = "Username must not be blank")
     @Size(min = 1, max = 30, message = "Username size must be between {min} and {max}")
     @Pattern(regexp = "^[a-zA-Z0-9]*$", message = "Username can only be entered in English and numbers")
-    private String user_name;
+    private String username;
 
     @NotEmpty(message = "Password must not be empty")
     @NotBlank(message = "Password must not be blank")

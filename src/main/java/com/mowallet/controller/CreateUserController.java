@@ -43,13 +43,14 @@ public class CreateUserController {
 
     @PostMapping("/create/user/post")
     public String createUserPost(@Valid CreateUser createUser, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("msg", alertUtil.makeAlert("danger", Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage()));
             return "redirect:/create/user";
         }else if(!createUser.getPassword().equals(createUser.getConfirmPassword())){
             redirectAttributes.addFlashAttribute("msg", alertUtil.makeAlert("danger", "Password does not matched"));
             return "redirect:/create/user";
-        }else if(createUserService.checkUsername(createUser.getUser_name())){
+        }else if(createUserService.checkUsername(createUser.getUsername())){
             redirectAttributes.addFlashAttribute("msg", alertUtil.makeAlert("danger", "Username already exists"));
             return "redirect:/create/user";
         }

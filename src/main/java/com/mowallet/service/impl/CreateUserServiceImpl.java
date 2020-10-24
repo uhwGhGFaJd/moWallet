@@ -3,6 +3,7 @@ package com.mowallet.service.impl;
 import com.mowallet.domain.CreateUser;
 import com.mowallet.mapper.CreateUserMapper;
 import com.mowallet.service.CreateUserService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -12,9 +13,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class CreateUserServiceImpl implements CreateUserService {
 
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final CreateUserMapper createUserMapper;
 
-    public CreateUserServiceImpl(CreateUserMapper createUserMapper) {
+    public CreateUserServiceImpl(BCryptPasswordEncoder bCryptPasswordEncoder, CreateUserMapper createUserMapper) {
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.createUserMapper = createUserMapper;
     }
 
@@ -25,6 +28,7 @@ public class CreateUserServiceImpl implements CreateUserService {
 
     @Override
     public void insertNewUser(CreateUser createUser) {
+        createUser.setPassword(bCryptPasswordEncoder.encode(createUser.getPassword()));
         createUserMapper.insertNewUser(createUser);
     }
 }
