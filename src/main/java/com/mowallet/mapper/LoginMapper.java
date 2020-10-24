@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
  * Github       : https://github.com/uhwGhGFaJd
  */
 @Mapper
-@Repository()
+@Repository
 public interface LoginMapper {
     @Select("SELECT user_id, user_name, user_password FROM users WHERE user_name = #{user_name}")
     User getUserInfo(String user_name);

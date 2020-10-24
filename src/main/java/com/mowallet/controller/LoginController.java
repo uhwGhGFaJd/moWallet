@@ -4,6 +4,7 @@ import com.mowallet.utils.AlertUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
@@ -23,35 +24,33 @@ public class LoginController {
     }
 
     @GetMapping("/login")
-    public String loginPage(String state, Principal principal, Model model, HttpServletRequest request) {
+    public String loginPage(String state, Principal principal, RedirectAttributes redirectAttributes, HttpServletRequest request) {
         if (principal != null) {
             return "redirect:/";
         }
 
-        String referrer = request.getHeader("Referer");
-        request.getSession().setAttribute("prevPage", referrer);
+        request.getSession().setAttribute("prevPage", request.getHeader("Referer"));
 
         if (state != null) {
             switch (state) {
                 case "noauth":
                 case "badlogin":
-                    model.addAttribute("msg", alertUtil.makeAlert("danger", "Bad Credentials".toUpperCase()));
+                    redirectAttributes.addFlashAttribute("msg", alertUtil.makeAlert("danger", "Bad Credentials".toUpperCase()));
                     break;
                 case "expirationpassword":
-                    model.addAttribute("msg", alertUtil.makeAlert("danger", "Credentials Expired".toUpperCase()));
+                    redirectAttributes.addFlashAttribute("msg", alertUtil.makeAlert("danger", "Credentials Expired".toUpperCase()));
                     break;
                 case "lock":
-                    model.addAttribute("msg", alertUtil.makeAlert("danger", "Locked".toUpperCase()));
+                    redirectAttributes.addFlashAttribute("msg", alertUtil.makeAlert("danger", "Locked".toUpperCase()));
                     break;
                 case "erroruser":
-                    model.addAttribute("msg", alertUtil.makeAlert("danger", "Account Expired".toUpperCase()));
+                    redirectAttributes.addFlashAttribute("msg", alertUtil.makeAlert("danger", "Account Expired".toUpperCase()));
                     break;
                 case "disabled":
-                    model.addAttribute("msg", alertUtil.makeAlert("danger", "Account Disabled".toUpperCase()));
+                    redirectAttributes.addFlashAttribute("msg", alertUtil.makeAlert("danger", "Account Disabled".toUpperCase()));
                     break;
             }
         }
-
         return "pages/login/login";
     }
 

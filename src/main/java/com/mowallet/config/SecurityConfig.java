@@ -55,6 +55,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/login").permitAll()
                 // TODO change role
                 .antMatchers("/create/user").permitAll()
+                .antMatchers("/create/user/post").permitAll()
                 .antMatchers("/a/**").hasAuthority("ROLE_ADMIN")
                 .antMatchers("/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
 
