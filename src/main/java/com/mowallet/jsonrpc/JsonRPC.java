@@ -28,20 +28,21 @@ public class JsonRPC {
     }
 
     public static void main(String[] args) throws Exception {
-        JSONObject resp = sendJsonRpc("getbalance", false);
+        //String[] params = {"txid", "8f3f4b13d038884eb496d28f34b7f94023bc826da70d0112bdc5671fb6e60feb"};
+        JSONObject resp = sendJsonRpc("getnetworkinfo", false);
     }
 
     public static JSONObject sendJsonRpc(String method, boolean debugMode, String[]... parameters) throws IOException, JSONException {
-        JSONObject electrumRpc = new JSONObject();
-        electrumRpc.put("jsonrpc", "2.0");
-        electrumRpc.put("id", "curltext");
-        electrumRpc.put("method", method);
-        electrumRpc.put("params", parameters);
+        JSONObject bitcoinRpc = new JSONObject();
+        bitcoinRpc.put("jsonrpc", "1.0");
+        bitcoinRpc.put("id", "1");
+        bitcoinRpc.put("method", method);
+        bitcoinRpc.put("params", parameters);
 
 
-        String tracUrl = "http://127.0.0.1:7772";
-        String tracUsername = "rpcuser";
-        String tracPassword = "rpcpassword";
+        String tracUrl = "http://127.0.0.1:18332";
+        String tracUsername = "bitcoin";
+        String tracPassword = "J9JkYnPiXWqgRzg3vAA";
 
 
         URL url = new URL(tracUrl);
@@ -54,9 +55,9 @@ public class JsonRPC {
 
         OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
 
-        System.out.println("jsonrpc request:\n" + electrumRpc.toString());
+        System.out.println("jsonrpc request:\n" + bitcoinRpc.toString());
 
-        wr.write(electrumRpc.toString());
+        wr.write(bitcoinRpc.toString());
         wr.flush();
         wr.close();
 
