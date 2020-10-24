@@ -38,7 +38,7 @@ public class CreateUserController {
     @GetMapping("/create/user")
     public String createUserPage() {
 
-        return "/pages/login/create_user";
+        return "pages/login/create_user";
     }
 
     @PostMapping("/create/user/post")

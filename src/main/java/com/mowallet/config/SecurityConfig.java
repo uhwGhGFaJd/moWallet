@@ -52,6 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
 
+                .antMatchers("/index").permitAll()
                 .antMatchers("/login").permitAll()
                 // TODO change role
                 .antMatchers("/create/user").permitAll()
