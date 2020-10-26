@@ -1,8 +1,12 @@
 package com.mowallet.service.impl;
 
-import com.mowallet.jsonrpc.JsonRPC;
+import com.mowallet.domain.GetUserListTransactions;
+import com.mowallet.jsonrpc.BitcoinJsonRPC;
 import com.mowallet.service.BitcoinJsonRpcService;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by uhwGhGFaJd@protonmail.com on 2020/10/23
@@ -11,9 +15,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class BitcoinJsonRpcServiceImpl implements BitcoinJsonRpcService {
 
-    private final JsonRPC jsonRPC;
+    private final BitcoinJsonRPC bitcoinJsonRPC;
 
-    public BitcoinJsonRpcServiceImpl(JsonRPC jsonRPC) {
-        this.jsonRPC = jsonRPC;
+    public BitcoinJsonRpcServiceImpl(BitcoinJsonRPC bitcoinJsonRPC) {
+        this.bitcoinJsonRPC = bitcoinJsonRPC;
+    }
+
+    @Override
+    public List<GetUserListTransactions> GetUserLast10Transactions(String user_name) {
+        List<GetUserListTransactions> list = new ArrayList<>();
+
+
+
+        return null;
     }
 }
