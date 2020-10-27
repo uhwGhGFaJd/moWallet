@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
  * Github       : https://github.com/uhwGhGFaJd
  */
 @Controller
-public class getNewAddressController {
+public class GetNewAddressController {
 
     @PostMapping("/getNewAddress")
     public String getNewAddressPost(){
