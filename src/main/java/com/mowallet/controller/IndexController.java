@@ -5,6 +5,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.math.RoundingMode;
+import java.security.Principal;
+
 /**
  * Created by uhwGhGFaJd@protonmail.com on 2020/10/23
  * Github       : https://github.com/uhwGhGFaJd
@@ -18,11 +21,12 @@ public class IndexController {
         this.bitcoinJsonRpcService = bitcoinJsonRpcService;
     }
 
-    @GetMapping("/index")
-    public String indexPage(Model model) {
+    @GetMapping("/")
+    public String indexPage(Principal principal, Model model) {
 
-        model.addAttribute("GetUserLast10Transactions", bitcoinJsonRpcService.GetUserLast10Transactions("testuser"));
-        model.addAttribute("GetAddressesByLabel", bitcoinJsonRpcService.GetAddressesByLabel("testuser"));
+        model.addAttribute("GetUserLast10Transactions", bitcoinJsonRpcService.getUserLast10Transactions(principal.getName()));
+        model.addAttribute("GetAddressesByLabel", bitcoinJsonRpcService.getAddressesByLabel(principal.getName()));
+        model.addAttribute("getreceivedbylabel", bitcoinJsonRpcService.getReceivedByLabel(principal.getName()).setScale(8, RoundingMode.DOWN));
 
         return "pages/index/index";
     }

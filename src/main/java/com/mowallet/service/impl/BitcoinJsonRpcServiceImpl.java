@@ -2,13 +2,18 @@ package com.mowallet.service.impl;
 
 import com.mowallet.domain.GetAddressesByLabel;
 import com.mowallet.domain.GetUserLast10Transactions;
+import com.mowallet.domain.User;
+import com.mowallet.domain.getNewAddressPost;
 import com.mowallet.jsonrpc.BitcoinJsonRPC;
+import com.mowallet.mapper.JsonRpcDbMapper;
 import com.mowallet.service.BitcoinJsonRpcService;
 import com.mowallet.utils.BitcoinUtil;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,15 +28,17 @@ import java.util.List;
 public class BitcoinJsonRpcServiceImpl implements BitcoinJsonRpcService {
 
     private final BitcoinJsonRPC bitcoinJsonRPC;
+    private final JsonRpcDbMapper jsonRpcDbMapper;
 
-    public BitcoinJsonRpcServiceImpl(BitcoinJsonRPC bitcoinJsonRPC) {
+    public BitcoinJsonRpcServiceImpl(BitcoinJsonRPC bitcoinJsonRPC, JsonRpcDbMapper jsonRpcDbMapper) {
         this.bitcoinJsonRPC = bitcoinJsonRPC;
+        this.jsonRpcDbMapper = jsonRpcDbMapper;
     }
 
     @Override
-    public List<GetUserLast10Transactions> GetUserLast10Transactions(String user_name) {
+    public List<GetUserLast10Transactions> getUserLast10Transactions(String user_name) {
         List<GetUserLast10Transactions> list = new ArrayList<>();
-        JSONObject jsonObject = bitcoinJsonRPC.sendJsonRpc("listtransactions", "*", 10);
+        JSONObject jsonObject = bitcoinJsonRPC.sendJsonRpc("listtransactions", user_name, 10);
         JSONArray jsonArray = jsonObject.getJSONArray("result");
 
         for (Object tx : jsonArray) {
@@ -57,7 +64,7 @@ public class BitcoinJsonRpcServiceImpl implements BitcoinJsonRpcService {
     }
 
     @Override
-    public List<GetAddressesByLabel> GetAddressesByLabel(String user_name) {
+    public List<GetAddressesByLabel> getAddressesByLabel(String user_name) {
         List<GetAddressesByLabel> list = new ArrayList<>();
         JSONObject jsonObject = bitcoinJsonRPC.sendJsonRpc("getaddressesbylabel", user_name).getJSONObject("result");
         Iterator<String> x = jsonObject.keys();
@@ -70,6 +77,20 @@ public class BitcoinJsonRpcServiceImpl implements BitcoinJsonRpcService {
         }
         Collections.reverse(list);
         return list;
+    }
+
+    @Override
+    public BigDecimal getReceivedByLabel(String user_name) {
+        return bitcoinJsonRPC.sendJsonRpc("getreceivedbylabel", user_name).getBigDecimal("result");
+    }
+
+    @Override
+    public void getNewAddress(getNewAddressPost getNewAddressPost, HttpSession session) {
+        User user = (User) session.getAttribute("member");
+        getNewAddressPost.setUser_name(user.getUser_name());
+        getNewAddressPost.setUser_id(user.getUser_id());
+        getNewAddressPost.setAddress(bitcoinJsonRPC.sendJsonRpc("getnewaddress", getNewAddressPost.getUser_name()).getString("result"));
+        jsonRpcDbMapper.getNewAddressAndInsertDb(getNewAddressPost);
     }
 
 

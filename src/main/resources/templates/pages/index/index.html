@@ -4,14 +4,14 @@
             <div class="page-header">
                 <div class="row align-items-end">
                     <div class="col-sm mb-2 mb-sm-0">
-                        <h1 class="page-title">Hi There! 😘</h1>
+                        <h1 class="page-title" th:text="|${session.member.user_name} Hi There! 😘|">username</h1>
                     </div>
 
                     <div class="col-sm-auto">
                         <a class="btn btn-primary" href="">
                             Withdraw
                         </a>
-                        <a class="btn btn-primary" href="">
+                        <a class="btn btn-primary" th:href="@{/getNewAddress}">
                             Create New Address
                         </a>
                     </div>
@@ -25,7 +25,7 @@
                             <h6 class="card-subtitle mb-2">CURRENT BALANCE</h6>
                             <div class="row align-items-center gx-2">
                                 <div class="col">
-                                    <span class="js-counter display-4 text-dark">24</span>
+                                    <span class="js-counter display-4 text-dark" th:text="${getreceivedbylabel}">24</span>
                                     <span class="text-body font-size-sm ml-1">BTC</span>
                                 </div>
                             </div>
