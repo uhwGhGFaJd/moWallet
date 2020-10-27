@@ -29,7 +29,7 @@ public class BitcoinJsonRPC {
 
     public JSONObject sendJsonRpc(String method, Object... parameters) {
         JSONObject bitcoinRpc = new JSONObject();
-        bitcoinRpc.put("jsonrpc", "1.0");
+        bitcoinRpc.put("jsonrpc", "2.0");
         bitcoinRpc.put("id", "1");
         bitcoinRpc.put("method", method);
         bitcoinRpc.put("params", parameters);
