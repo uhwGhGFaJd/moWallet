@@ -76,7 +76,7 @@ public class BitcoinJsonRPC {
             }
             rd.close();
 
-            //System.out.println("jsonrpc response:\n" + jsonText);
+            System.out.println("jsonrpc response:\n" + jsonText);
 
         } catch (IOException e) {
             e.printStackTrace();

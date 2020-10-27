@@ -21,7 +21,8 @@ public class IndexController {
     @GetMapping("/index")
     public String indexPage(Model model) {
 
-        model.addAttribute("GetUserLast10Transactions", bitcoinJsonRpcService.GetUserLast10Transactions("asd"));
+        model.addAttribute("GetUserLast10Transactions", bitcoinJsonRpcService.GetUserLast10Transactions("testuser"));
+        model.addAttribute("GetAddressesByLabel", bitcoinJsonRpcService.GetAddressesByLabel("testuser"));
 
         return "pages/index/index";
     }

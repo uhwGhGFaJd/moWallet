@@ -1,5 +1,6 @@
 package com.mowallet.service.impl;
 
+import com.mowallet.domain.GetAddressesByLabel;
 import com.mowallet.domain.GetUserLast10Transactions;
 import com.mowallet.jsonrpc.BitcoinJsonRPC;
 import com.mowallet.service.BitcoinJsonRpcService;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -49,6 +51,22 @@ public class BitcoinJsonRpcServiceImpl implements BitcoinJsonRpcService {
                     .time(BitcoinUtil.getTimestampToDate(BitcoinUtil.optInt(jsonParser, "time")))
                     .timereceived(BitcoinUtil.getTimestampToDate(BitcoinUtil.optInt(jsonParser, "timereceived"))).build();
             list.add(getUserLast10Transactions);
+        }
+        Collections.reverse(list);
+        return list;
+    }
+
+    @Override
+    public List<GetAddressesByLabel> GetAddressesByLabel(String user_name) {
+        List<GetAddressesByLabel> list = new ArrayList<>();
+        JSONObject jsonObject = bitcoinJsonRPC.sendJsonRpc("getaddressesbylabel", user_name).getJSONObject("result");
+        Iterator<String> x = jsonObject.keys();
+
+        while (x.hasNext()) {
+            GetAddressesByLabel getAddressesByLabel = GetAddressesByLabel.builder()
+                    .address(x.next())
+                    .build();
+            list.add(getAddressesByLabel);
         }
         Collections.reverse(list);
         return list;

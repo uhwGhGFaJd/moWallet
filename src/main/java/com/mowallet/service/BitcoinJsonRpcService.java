@@ -1,5 +1,6 @@
 package com.mowallet.service;
 
+import com.mowallet.domain.GetAddressesByLabel;
 import com.mowallet.domain.GetUserLast10Transactions;
 
 import java.util.List;
@@ -11,4 +12,6 @@ import java.util.List;
 public interface BitcoinJsonRpcService {
 
     List<GetUserLast10Transactions> GetUserLast10Transactions(String user_name);
+
+    List<GetAddressesByLabel> GetAddressesByLabel(String user_name);
 }
