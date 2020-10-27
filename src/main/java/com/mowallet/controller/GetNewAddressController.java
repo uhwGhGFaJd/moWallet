@@ -1,6 +1,7 @@
 package com.mowallet.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 /**
@@ -10,7 +11,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class GetNewAddressController {
 
-    @PostMapping("/getNewAddress")
+    @GetMapping("/getNewAddress")
+    public String getNewAddressPage(){
+
+        return null;
+    }
+
+    @PostMapping("/getNewAddress/post")
     public String getNewAddressPost(){
 
         return null;
