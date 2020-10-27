@@ -75,7 +75,7 @@
                 </div>
             </div>
 
-            <div class="card">
+            <div class="card mb-4">
                 <div class="card-header">
                     <div class="row justify-content-between align-items-center flex-grow-1">
                         <div class="col-12 col-md">
@@ -86,48 +86,109 @@
                     </div>
                 </div>
 
-                <div class="table-responsive datatable-custom">
+                <div class="table-responsive mb-4">
                     <table class="table table-borderless table-thead-bordered table-nowrap table-align-middle card-table">
                         <thead class="thead-light">
                         <tr>
                             <th>Date</th>
-                            <th>Address</th>
+                            <th>Address (blockchain)</th>
                             <th>Category</th>
-                            <th>Amount</th>
+                            <th>Fee</th>
                             <th>Status</th>
-                            <th>Action</th>
+                            <th>Detail</th>
                         </tr>
                         </thead>
 
                         <tbody>
-                        <tr>
+                        <tr th:each="transactions : ${GetUserLast10Transactions}">
                             <td>
-                                <span class="d-block h5 mb-0">Director</span>
-                                <span class="d-block font-size-sm">Human resources</span>
+                                <span class="d-block h5 mb-0" th:text="${transactions.timereceived}">Director</span>
                             </td>
                             <td>
-                                <a class="media align-items-center" href="">
-                                    <div class="media-body">
-                                        <span class="d-block h5 text-hover-primary mb-0">tb1qg9tngnczcygxq4pdx8ykhrgh9skt80c2rh4m4p <i class="tio-verified text-primary" data-toggle="tooltip" data-placement="top" title="Top endorsed"></i></span>
-                                        <span class="d-block font-size-sm text-body">TXID: 2427f958faa74b3db8de1a575c09f2cd78547de1b38e07462bfe5bb5907e124a</span>
-                                    </div>
-                                </a>
+                                <div class="media-body">
+                                    <a class="media align-items-center" target="_blank"
+                                       th:href="@{https://www.blockchain.com/btc-testnet/address/{address}(address=${transactions.address})}">
+                                        <span class="d-block h5 text-hover-primary mb-0" th:text="${transactions.address}">Address</span>
+                                    </a>
+                                    <span class="d-block font-size-sm text-body" th:text="${transactions.txid}">TXID</span>
+                                </div>
                             </td>
                             <td>
-                                <span class="d-block h5 mb-0">Receive</span>
-                                <span class="d-block font-size-sm">0.00022000 BTC</span>
+                                <span class="d-block h5 mb-0 text-success" th:if="${transactions.category} == 'receive'">Receive</span>
+                                <span class="d-block h5 mb-0 text-danger" th:if="${transactions.category} == 'send'">Send</span>
+
+                                <span class="d-block font-size-sm" th:text="|${transactions.amount} BTC|"></span>
                             </td>
-                            <td>United Kingdom <span class="text-hide">Code: GB</span></td>
+                            <td><span class="d-block font-size-sm h5 mb-0" th:text="|${transactions.fee} BTC|"></span></td>
                             <td>
-                                <span class="legend-indicator bg-success"></span>343 Confirm
+                                <span class="legend-indicator bg-success"></span><span th:text="|${transactions.confirmations} Confirms|"></span>
                             </td>
                             <td>
-                              <a href="">Info</a>
+                                <a href="">View</a>
                             </td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
+
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-header">
+                    <div class="row justify-content-between align-items-center flex-grow-1">
+                        <div class="col-12 col-md">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="card-header-title">My Address</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-borderless table-thead-bordered table-nowrap table-align-middle card-table">
+                        <thead class="thead-light">
+                        <tr>
+                            <th>Date</th>
+                            <th>Address (blockchain)</th>
+                            <th>Category</th>
+                            <th>Fee</th>
+                            <th>Status</th>
+                            <th>Detail</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr th:each="transactions : ${GetUserLast10Transactions}">
+                            <td>
+                                <span class="d-block h5 mb-0" th:text="${transactions.timereceived}">Director</span>
+                            </td>
+                            <td>
+                                <div class="media-body">
+                                    <a class="media align-items-center" target="_blank"
+                                       th:href="@{https://www.blockchain.com/btc-testnet/address/{address}(address=${transactions.address})}">
+                                        <span class="d-block h5 text-hover-primary mb-0" th:text="${transactions.address}">Address</span>
+                                    </a>
+                                    <span class="d-block font-size-sm text-body" th:text="${transactions.txid}">TXID</span>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="d-block h5 mb-0 text-success" th:if="${transactions.category} == 'receive'">Receive</span>
+                                <span class="d-block h5 mb-0 text-danger" th:if="${transactions.category} == 'send'">Send</span>
+
+                                <span class="d-block font-size-sm" th:text="|${transactions.amount} BTC|"></span>
+                            </td>
+                            <td><span class="d-block font-size-sm h5 mb-0" th:text="|${transactions.fee} BTC|"></span></td>
+                            <td>
+                                <span class="legend-indicator bg-success"></span><span th:text="|${transactions.confirmations} Confirms|"></span>
+                            </td>
+                            <td>
+                                <a href="">View</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
         </div>
 

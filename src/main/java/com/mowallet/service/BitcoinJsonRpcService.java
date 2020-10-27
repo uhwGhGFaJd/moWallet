@@ -1,6 +1,6 @@
 package com.mowallet.service;
 
-import com.mowallet.domain.GetUserListTransactions;
+import com.mowallet.domain.GetUserLast10Transactions;
 
 import java.util.List;
 
@@ -9,5 +9,6 @@ import java.util.List;
  * Github       : https://github.com/uhwGhGFaJd
  */
 public interface BitcoinJsonRpcService {
-    List<GetUserListTransactions> GetUserLast10Transactions(String user_name);
+
+    List<GetUserLast10Transactions> GetUserLast10Transactions(String user_name);
 }
