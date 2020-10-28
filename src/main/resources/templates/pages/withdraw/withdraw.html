@@ -1,0 +1,63 @@
+<th:block layout:decorate="~{layout/layout}" layout:fragment="content">
+    <section class="pt-5">
+        <div class="container">
+            <div class="page-header">
+                <div class="row align-items-end">
+                    <div class="col-sm mb-2 mb-sm-0">
+                        <h1 class="page-title">Withdraw Bitcoin 🥰️</h1>
+                    </div>
+
+                    <div class="col-sm-auto">
+                        <a class="btn btn-primary" href="">
+                            Withdraw
+                        </a>
+                        <a class="btn btn-primary" href="">
+                            Create New Address
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-6">
+                    <div th:utext="${msg}"></div>
+
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <form th:action="@{/getNewAddress/post}" th:method="post">
+                                <div class="form-group">
+                                    <label class="form-control-label">Address Description</label>
+                                    <textarea name="desc" class="form-control form-control-sm" placeholder="What's this transaction for?" maxlength="5000" required
+                                              rows="3"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-control-label">To</label>
+                                    <input class="form-control" placeholder="bitcoin address" name="">
+                                </div>
+                                <div class="form-group">
+                                    <label for="withAppendLabel" class="input-label">Amount</label>
+
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="withAppendLabel" placeholder="0.00000000">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text" id="basic-addon2">BTC</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button class="btn btn-sm btn-primary btn-block mt-2" type="submit">Send
+                                    </button>
+                                </div>
+
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+</th:block>
