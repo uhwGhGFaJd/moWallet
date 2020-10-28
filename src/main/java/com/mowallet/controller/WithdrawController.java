@@ -1,9 +1,11 @@
 package com.mowallet.controller;
 
 import com.mowallet.domain.WithdrawPost;
+import com.mowallet.service.JsonRpcDbService;
 import com.mowallet.utils.AlertUtil;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,9 +24,11 @@ import java.util.Objects;
 public class WithdrawController {
 
     private final AlertUtil alertUtil;
+    private final JsonRpcDbService jsonRpcDbService;
 
-    public WithdrawController(AlertUtil alertUtil) {
+    public WithdrawController(AlertUtil alertUtil, JsonRpcDbService jsonRpcDbService) {
         this.alertUtil = alertUtil;
+        this.jsonRpcDbService = jsonRpcDbService;
     }
 
     @InitBinder
@@ -34,8 +38,9 @@ public class WithdrawController {
 
 
     @GetMapping("/withdraw")
-    public String withdrawPage() {
+    public String withdrawPage(Model model) {
 
+        model.addAttribute("service_fees", jsonRpcDbService.getServiceFees());
         return "pages/withdraw/withdraw";
     }
 

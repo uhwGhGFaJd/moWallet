@@ -30,4 +30,9 @@ public class JsonRpcDbServiceImpl implements JsonRpcDbService {
     public List<GetAddressesByLabel> getUserCreatedAddress(int user_id) {
         return jsonRpcDbMapper.getUserCreatedAddress(user_id);
     }
+
+    @Override
+    public int getServiceFees() {
+        return jsonRpcDbMapper.getServiceFees();
+    }
 }

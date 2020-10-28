@@ -121,7 +121,7 @@
                             </td>
                             <td><span class="d-block font-size-sm h5 mb-0" th:text="|${transactions.fee} BTC|"></span></td>
                             <td>
-                                <span class="legend-indicator bg-success"></span><span th:text="|${transactions.confirmations} Confirms|"></span>
+                                <span class="legend-indicator bg-success" th:classappend="${transactions.confirmations} == '0' ? 'bg-danger'"></span><span th:text="|${transactions.confirmations} Confirms|"></span>
                             </td>
                             <td>
                                 <a href="">View</a>

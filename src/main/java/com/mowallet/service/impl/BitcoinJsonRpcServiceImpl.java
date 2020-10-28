@@ -68,11 +68,11 @@ public class BitcoinJsonRpcServiceImpl implements BitcoinJsonRpcService {
     public List<GetAddressesByLabel> getAddressesByLabel(String user_name) {
         List<GetAddressesByLabel> list = new ArrayList<>();
         JSONObject jsonObject = bitcoinJsonRPC.sendJsonRpc("getaddressesbylabel", user_name).getJSONObject("result");
-        Iterator<String> x = jsonObject.keys();
+        Iterator<String> iterator = jsonObject.keys();
 
-        while (x.hasNext()) {
+        while (iterator.hasNext()) {
             GetAddressesByLabel getAddressesByLabel = GetAddressesByLabel.builder()
-                    .address(x.next())
+                    .address(iterator.next())
                     .build();
             list.add(getAddressesByLabel);
         }

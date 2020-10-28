@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.security.Principal;
 
@@ -35,8 +36,11 @@ public class IndexController {
         // My Address list
         model.addAttribute("GetAddressesByLabel", jsonRpcDbMapper.getUserCreatedAddress(user.getUser_id()));
         // Address Balance
-        model.addAttribute("getreceivedbylabel", bitcoinJsonRpcService.getReceivedByLabel(principal.getName()).setScale(8, RoundingMode.DOWN));
-
+        BigDecimal userBalance = bitcoinJsonRpcService.getReceivedByLabel(principal.getName()).setScale(8, RoundingMode.DOWN);
+        if (userBalance.signum() == 0) {
+            userBalance = BigDecimal.ZERO;
+        }
+        model.addAttribute("getreceivedbylabel", userBalance);
         return "pages/index/index";
     }
 }

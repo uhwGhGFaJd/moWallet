@@ -13,4 +13,6 @@ public interface JsonRpcDbService {
     void getNewAddressAndInsertDb(getNewAddressPost getNewAddressPost);
 
     List<GetAddressesByLabel> getUserCreatedAddress(int user_id);
+
+    int getServiceFees();
 }
