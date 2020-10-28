@@ -11,6 +11,7 @@ import com.mowallet.utils.BitcoinUtil;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
@@ -85,6 +86,7 @@ public class BitcoinJsonRpcServiceImpl implements BitcoinJsonRpcService {
     }
 
     @Override
+    @Transactional
     public void getNewAddress(getNewAddressPost getNewAddressPost, HttpSession session) {
         User user = (User) session.getAttribute("member");
         getNewAddressPost.setUser_name(user.getUser_name());
