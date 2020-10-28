@@ -12,6 +12,8 @@ import lombok.Setter;
 @Setter
 @Builder
 public class GetAddressesByLabel {
+    private String address_id;
     private String address;
-    private String qrcode;
+    private String address_desc;
+    private String address_create_date;
 }

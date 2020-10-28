@@ -1,10 +1,13 @@
 package com.mowallet.controller;
 
+import com.mowallet.domain.User;
+import com.mowallet.mapper.JsonRpcDbMapper;
 import com.mowallet.service.BitcoinJsonRpcService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import javax.servlet.http.HttpSession;
 import java.math.RoundingMode;
 import java.security.Principal;
 
@@ -16,16 +19,22 @@ import java.security.Principal;
 public class IndexController {
 
     private final BitcoinJsonRpcService bitcoinJsonRpcService;
+    private final JsonRpcDbMapper jsonRpcDbMapper;
 
-    public IndexController(BitcoinJsonRpcService bitcoinJsonRpcService) {
+    public IndexController(BitcoinJsonRpcService bitcoinJsonRpcService, JsonRpcDbMapper jsonRpcDbMapper) {
         this.bitcoinJsonRpcService = bitcoinJsonRpcService;
+        this.jsonRpcDbMapper = jsonRpcDbMapper;
     }
 
     @GetMapping("/")
-    public String indexPage(Principal principal, Model model) {
+    public String indexPage(Principal principal, Model model, HttpSession session) {
+        User user = (User) session.getAttribute("member");
 
+        // Last 10 Transactions
         model.addAttribute("GetUserLast10Transactions", bitcoinJsonRpcService.getUserLast10Transactions(principal.getName()));
-        model.addAttribute("GetAddressesByLabel", bitcoinJsonRpcService.getAddressesByLabel(principal.getName()));
+        // My Address list
+        model.addAttribute("GetAddressesByLabel", jsonRpcDbMapper.getUserCreatedAddress(user.getUser_id()));
+        // Address Balance
         model.addAttribute("getreceivedbylabel", bitcoinJsonRpcService.getReceivedByLabel(principal.getName()).setScale(8, RoundingMode.DOWN));
 
         return "pages/index/index";

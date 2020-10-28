@@ -93,7 +93,7 @@
                             <th>Date</th>
                             <th>Address (blockchain)</th>
                             <th>Category</th>
-                            <th>Fee</th>
+                            <th>Fees</th>
                             <th>Status</th>
                             <th>Detail</th>
                         </tr>
@@ -148,14 +148,23 @@
                     <table class="table table-borderless table-thead-bordered table-nowrap table-align-middle card-table">
                         <thead class="thead-light">
                         <tr>
-                            <th>Address (blockchain)</th>
+                            <th>Date</th>
+                            <th>Address</th>
+                            <th>Address Description</th>
                         </tr>
+
                         </thead>
 
                         <tbody>
                         <tr th:each="getAddressesByLabel : ${GetAddressesByLabel}">
                             <td>
+                                <span class="d-block h5 mb-0" th:text="${getAddressesByLabel.address_create_date}">Director</span>
+                            </td>
+                            <td>
                                 <span class="d-block h5 mb-0" th:text="${getAddressesByLabel.address}">Director</span>
+                            </td>
+                            <td>
+                                <span class="d-block h5 mb-0" th:text="${getAddressesByLabel.address_desc}">Director</span>
                             </td>
                         </tr>
                         </tbody>
