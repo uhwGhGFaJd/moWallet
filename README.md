@@ -31,5 +31,8 @@ not yet
  2. Open a [new issue](https://github.com/uhwGhGFaJd/moWallet/issues/new).
  3. Lastly, you can send me email [refer to my profile](https://github.com/uhwGhGFaJd).
  
+ ## Reference
+ - Storing and Querying Bitcoin Blockchain Using SQL Databases
+ https://files.eric.ed.gov/fulltext/EJ1219543.pdf
  
  ## moWallet Screenshots
