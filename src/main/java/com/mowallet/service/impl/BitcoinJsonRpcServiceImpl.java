@@ -26,6 +26,8 @@ import java.util.List;
 @Service
 public class BitcoinJsonRpcServiceImpl implements BitcoinJsonRpcService {
 
+    private static final BigDecimal HUNDRED_PERCENT = BigDecimal.valueOf(100);
+
     private final BitcoinJsonRPC bitcoinJsonRPC;
     private final JsonRpcDbMapper jsonRpcDbMapper;
 
@@ -101,6 +103,16 @@ public class BitcoinJsonRpcServiceImpl implements BitcoinJsonRpcService {
         withdrawPost.setService_fees(jsonRpcDbMapper.getServiceFees());
         // get set user bitcoin balance
         withdrawPost.setUser_balance(bitcoinJsonRPC.sendJsonRpc("getreceivedbylabel", principal.getName()).getBigDecimal("result").setScale(8, RoundingMode.HALF_EVEN));
+
+        //fee_amount is 0.10220000 fee is 0.00102200
+        BigDecimal serviceFeeAmount =
+                (withdrawPost.getUser_balance().multiply(BigDecimal.valueOf(withdrawPost.getService_fees())).setScale(8, RoundingMode.HALF_EVEN))
+                        .divide(HUNDRED_PERCENT, 8, RoundingMode.HALF_EVEN);
+        //System.out.println("fee_amount is " + fee_amount + " fee is " + fee_amount.divide(HUNDRED_PERCENT, 8, RoundingMode.HALF_EVEN));
+        System.out.println(serviceFeeAmount);
+
+        BigDecimal amountToBeSentWithoutFees = withdrawPost.getUser_balance().subtract(serviceFeeAmount).setScale(8, RoundingMode.HALF_EVEN);
+        System.out.println(amountToBeSentWithoutFees);
 
         System.out.println(withdrawPost.toString());
 
