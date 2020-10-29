@@ -23,6 +23,9 @@ From the GNU site:
 - Lombok
 - Bitcoin Core v0.20.1 higher
 
+## Installation
+not yet
+
 ## Support
  1. Review the [open issues](https://github.com/uhwGhGFaJd/moWallet/issues).
  2. Open a [new issue](https://github.com/uhwGhGFaJd/moWallet/issues/new).
