@@ -2,6 +2,7 @@ package com.mowallet.service;
 
 import com.mowallet.domain.GetAddressesByLabel;
 import com.mowallet.domain.GetUserLast10Transactions;
+import com.mowallet.domain.WithdrawPost;
 import com.mowallet.domain.getNewAddressPost;
 
 import javax.servlet.http.HttpSession;
@@ -21,4 +22,6 @@ public interface BitcoinJsonRpcService {
     BigDecimal getReceivedByLabel(String user_name);
 
     void getNewAddress(getNewAddressPost getNewAddressPost, HttpSession session);
+
+    void withdrawBitcoinAndInsertDb(WithdrawPost withdrawPost);
 }

@@ -29,4 +29,7 @@ public class WithdrawPost {
     @NotBlank(message = "Withdraw Amount address must not be blank")
     @DecimalMin(value = "0.00001", message = "Withdraw Amount must be greater than ${inclusive == true ? 'or equal to ' : ''}{value}")
     private BigDecimal withdraw_amount;
+
+    private int user_id;
+    private int service_fees;
 }

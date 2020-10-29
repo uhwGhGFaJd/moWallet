@@ -1,8 +1,8 @@
 package com.mowallet.controller;
 
 import com.mowallet.domain.User;
-import com.mowallet.mapper.JsonRpcDbMapper;
 import com.mowallet.service.BitcoinJsonRpcService;
+import com.mowallet.service.JsonRpcDbService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,11 +20,12 @@ import java.security.Principal;
 public class IndexController {
 
     private final BitcoinJsonRpcService bitcoinJsonRpcService;
-    private final JsonRpcDbMapper jsonRpcDbMapper;
+    private final JsonRpcDbService jsonRpcDbService;
 
-    public IndexController(BitcoinJsonRpcService bitcoinJsonRpcService, JsonRpcDbMapper jsonRpcDbMapper) {
+
+    public IndexController(BitcoinJsonRpcService bitcoinJsonRpcService, JsonRpcDbService jsonRpcDbService) {
         this.bitcoinJsonRpcService = bitcoinJsonRpcService;
-        this.jsonRpcDbMapper = jsonRpcDbMapper;
+        this.jsonRpcDbService = jsonRpcDbService;
     }
 
     @GetMapping("/")
@@ -34,13 +35,14 @@ public class IndexController {
         // Last 10 Transactions
         model.addAttribute("GetUserLast10Transactions", bitcoinJsonRpcService.getUserLast10Transactions(principal.getName()));
         // My Address list
-        model.addAttribute("GetAddressesByLabel", jsonRpcDbMapper.getUserCreatedAddress(user.getUser_id()));
+        model.addAttribute("GetAddressesByLabel", jsonRpcDbService.getUserCreatedAddress(user.getUser_id()));
         // Address Balance
         BigDecimal userBalance = bitcoinJsonRpcService.getReceivedByLabel(principal.getName()).setScale(8, RoundingMode.DOWN);
         if (userBalance.signum() == 0) {
             userBalance = BigDecimal.ZERO;
         }
         model.addAttribute("getreceivedbylabel", userBalance);
+        model.addAttribute("service_fees", jsonRpcDbService.getServiceFees());
         return "pages/index/index";
     }
 }

@@ -1,9 +1,6 @@
 package com.mowallet.service.impl;
 
-import com.mowallet.domain.GetAddressesByLabel;
-import com.mowallet.domain.GetUserLast10Transactions;
-import com.mowallet.domain.User;
-import com.mowallet.domain.getNewAddressPost;
+import com.mowallet.domain.*;
 import com.mowallet.jsonrpc.BitcoinJsonRPC;
 import com.mowallet.mapper.JsonRpcDbMapper;
 import com.mowallet.service.BitcoinJsonRpcService;
@@ -93,6 +90,11 @@ public class BitcoinJsonRpcServiceImpl implements BitcoinJsonRpcService {
         getNewAddressPost.setUser_id(user.getUser_id());
         getNewAddressPost.setAddress(bitcoinJsonRPC.sendJsonRpc("getnewaddress", getNewAddressPost.getUser_name()).getString("result"));
         jsonRpcDbMapper.getNewAddressAndInsertDb(getNewAddressPost);
+    }
+
+    @Override
+    public void withdrawBitcoinAndInsertDb(WithdrawPost withdrawPost) {
+
     }
 
 
