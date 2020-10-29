@@ -7,6 +7,7 @@ import com.mowallet.domain.getNewAddressPost;
 
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
+import java.security.Principal;
 import java.util.List;
 
 /**
@@ -21,7 +22,7 @@ public interface BitcoinJsonRpcService {
 
     BigDecimal getReceivedByLabel(String user_name);
 
-    void getNewAddress(getNewAddressPost getNewAddressPost, HttpSession session);
+    void getNewAddress(getNewAddressPost getNewAddressPost, HttpSession httpSession);
 
-    void withdrawBitcoinAndInsertDb(WithdrawPost withdrawPost);
+    void withdrawBitcoinAndInsertDb(WithdrawPost withdrawPost, Principal principal, HttpSession httpSession);
 }

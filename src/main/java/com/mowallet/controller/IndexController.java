@@ -37,7 +37,7 @@ public class IndexController {
         // My Address list
         model.addAttribute("GetAddressesByLabel", jsonRpcDbService.getUserCreatedAddress(user.getUser_id()));
         // Address Balance
-        BigDecimal userBalance = bitcoinJsonRpcService.getReceivedByLabel(principal.getName()).setScale(8, RoundingMode.DOWN);
+        BigDecimal userBalance = bitcoinJsonRpcService.getReceivedByLabel(principal.getName());
         if (userBalance.signum() == 0) {
             userBalance = BigDecimal.ZERO;
         }

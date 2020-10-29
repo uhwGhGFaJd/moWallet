@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -44,7 +45,7 @@ public class BitcoinJsonRpcServiceImpl implements BitcoinJsonRpcService {
             GetUserLast10Transactions getUserLast10Transactions = GetUserLast10Transactions.builder()
                     .address(jsonParser.getString("address"))
                     .category(jsonParser.getString("category"))
-                    .amount(jsonParser.getBigDecimal("amount").setScale(8, RoundingMode.DOWN))
+                    .amount(jsonParser.getBigDecimal("amount").setScale(8, RoundingMode.HALF_EVEN))
                     .vout(jsonParser.getInt("vout"))
                     .fee(BitcoinUtil.optBigDecimal(jsonParser, "fee"))
                     .confirmations(jsonParser.getInt("confirmations"))
@@ -79,13 +80,13 @@ public class BitcoinJsonRpcServiceImpl implements BitcoinJsonRpcService {
 
     @Override
     public BigDecimal getReceivedByLabel(String user_name) {
-        return bitcoinJsonRPC.sendJsonRpc("getreceivedbylabel", user_name).getBigDecimal("result");
+        return bitcoinJsonRPC.sendJsonRpc("getreceivedbylabel", user_name).getBigDecimal("result").setScale(8, RoundingMode.HALF_EVEN);
     }
 
     @Override
     @Transactional
-    public void getNewAddress(getNewAddressPost getNewAddressPost, HttpSession session) {
-        User user = (User) session.getAttribute("member");
+    public void getNewAddress(getNewAddressPost getNewAddressPost, HttpSession httpSession) {
+        User user = (User) httpSession.getAttribute("member");
         getNewAddressPost.setUser_name(user.getUser_name());
         getNewAddressPost.setUser_id(user.getUser_id());
         getNewAddressPost.setAddress(bitcoinJsonRPC.sendJsonRpc("getnewaddress", getNewAddressPost.getUser_name()).getString("result"));
@@ -93,7 +94,15 @@ public class BitcoinJsonRpcServiceImpl implements BitcoinJsonRpcService {
     }
 
     @Override
-    public void withdrawBitcoinAndInsertDb(WithdrawPost withdrawPost) {
+    public void withdrawBitcoinAndInsertDb(WithdrawPost withdrawPost, Principal principal, HttpSession httpSession) {
+        User user = (User) httpSession.getAttribute("member");
+        withdrawPost.setUser_id(user.getUser_id());
+        // get set service fees
+        withdrawPost.setService_fees(jsonRpcDbMapper.getServiceFees());
+        // get set user bitcoin balance
+        withdrawPost.setUser_balance(bitcoinJsonRPC.sendJsonRpc("getreceivedbylabel", principal.getName()).getBigDecimal("result").setScale(8, RoundingMode.HALF_EVEN));
+
+        System.out.println(withdrawPost.toString());
 
     }
 
