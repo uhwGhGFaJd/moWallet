@@ -22,3 +22,9 @@ From the GNU site:
 - MariaDB 10.5.4 higher
 - Lombok
 - Bitcoin Core v0.20.1 higher
+
+## Support
+ 1. Review the [open issues](https://github.com/uhwGhGFaJd/moWallet/issues).
+ 2. Open a [new issue](https://github.com/uhwGhGFaJd/moWallet/issues/new).
+ 3. Lastly, you can send me email [refer to my profile](https://github.com/uhwGhGFaJd).
+ 
