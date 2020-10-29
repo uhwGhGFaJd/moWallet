@@ -1,7 +1,9 @@
 package com.mowallet.service;
 
 import com.mowallet.domain.GetAddressesByLabel;
+import com.mowallet.domain.WithdrawPost;
 import com.mowallet.domain.getNewAddressPost;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -15,4 +17,8 @@ public interface JsonRpcDbService {
     List<GetAddressesByLabel> getUserCreatedAddress(int user_id);
 
     int getServiceFees();
+
+    String getServiceFeesTestNetAddress();
+
+    void insertUserWithdrawRecord(WithdrawPost withdrawPost);
 }

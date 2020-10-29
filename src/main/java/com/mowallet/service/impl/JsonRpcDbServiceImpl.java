@@ -1,6 +1,7 @@
 package com.mowallet.service.impl;
 
 import com.mowallet.domain.GetAddressesByLabel;
+import com.mowallet.domain.WithdrawPost;
 import com.mowallet.domain.getNewAddressPost;
 import com.mowallet.mapper.JsonRpcDbMapper;
 import com.mowallet.service.JsonRpcDbService;
@@ -34,5 +35,15 @@ public class JsonRpcDbServiceImpl implements JsonRpcDbService {
     @Override
     public int getServiceFees() {
         return jsonRpcDbMapper.getServiceFees();
+    }
+
+    @Override
+    public String getServiceFeesTestNetAddress() {
+        return jsonRpcDbMapper.getServiceFeesTestNetAddress();
+    }
+
+    @Override
+    public void insertUserWithdrawRecord(WithdrawPost withdrawPost) {
+        jsonRpcDbMapper.insertUserWithdrawRecord(withdrawPost);
     }
 }

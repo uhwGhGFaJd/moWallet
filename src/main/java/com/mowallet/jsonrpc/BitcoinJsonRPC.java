@@ -27,7 +27,7 @@ public class BitcoinJsonRPC {
         this.jsonRpcDbMapper = jsonRpcDbMapper;
     }
 
-    public JSONObject sendJsonRpc(String method, Object... parameters) {
+    public JSONObject requestJsonRpc(String method, Object... parameters) {
         JSONObject bitcoinRpc = new JSONObject();
         bitcoinRpc.put("jsonrpc", "2.0");
         bitcoinRpc.put("id", "1");

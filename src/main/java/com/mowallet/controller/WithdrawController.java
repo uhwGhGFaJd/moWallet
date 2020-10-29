@@ -43,9 +43,10 @@ public class WithdrawController {
 
 
     @GetMapping("/withdraw")
-    public String withdrawPage(Model model) {
+    public String withdrawPage(Model model, Principal principal) {
 
         model.addAttribute("service_fees", jsonRpcDbService.getServiceFees());
+        model.addAttribute("user_balance", bitcoinJsonRpcService.getReceivedByLabel(principal.getName()));
         return "pages/withdraw/withdraw";
     }
 

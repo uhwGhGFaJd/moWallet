@@ -27,17 +27,17 @@
                             <form th:action="@{/withdraw/post}" th:method="post">
                                 <div class="form-group">
                                     <label class="form-control-label">Withdraw Description</label>
-                                    <textarea name="withdraw_desc" class="form-control form-control-sm" placeholder="What's this transaction for?" maxlength="5000" required
-                                              rows="3"></textarea>
+                                    <textarea name="withdraw_desc" class="form-control form-control-sm" placeholder="What's this transaction for?" maxlength="5000"
+                                              rows="3" required></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-control-label">To</label>
-                                    <input class="form-control" name="withdraw_to" placeholder="bitcoin address" maxlength="44">
+                                    <input type="text" class="form-control" name="withdraw_to" placeholder="bitcoin address" maxlength="44" required>
                                 </div>
                                 <div class="form-group">
                                     <label class="input-label">Amount (min = 0.00001)</label>
                                     <div class="input-group">
-                                        <input type="text" class="form-control" name="withdraw_amount" placeholder="0.00000000">
+                                        <input type="text" class="form-control" name="withdraw_amount" placeholder="0.00000000" required>
                                         <div class="input-group-append">
                                             <span class="input-group-text" id="basic-addon2">BTC</span>
                                         </div>
@@ -46,7 +46,8 @@
                                 <div class="form-group">
                                     <label class="input-label">Notice</label>
                                     <p class="text-sm mb-1">Bitcoin fees are deducted from the transfer amount.</p>
-                                    <p class="text-sm" th:text="|Service Fees is ${service_fees}%|">Bitcoin fees are deducted from the transfer amount.</p>
+                                    <p class="text-sm mb-1" th:text="|Service Fees is ${service_fees}%|">Bitcoin fees are deducted from the transfer amount.</p>
+                                    <p class="text-sm mb-1" th:text="|Currnet Balnace ${user_balance} BTC|">Bitcoin fees are deducted from the transfer amount.</p>
                                 </div>
                                 <div>
                                     <button class="btn btn-sm btn-primary btn-block mt-2" type="submit">Send

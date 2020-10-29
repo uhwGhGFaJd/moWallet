@@ -39,7 +39,7 @@ public class BitcoinJsonRpcServiceImpl implements BitcoinJsonRpcService {
     @Override
     public List<GetUserLast10Transactions> getUserLast10Transactions(String user_name) {
         List<GetUserLast10Transactions> list = new ArrayList<>();
-        JSONObject jsonObject = bitcoinJsonRPC.sendJsonRpc("listtransactions", user_name, 10);
+        JSONObject jsonObject = bitcoinJsonRPC.requestJsonRpc("listtransactions", user_name, 10);
         JSONArray jsonArray = jsonObject.getJSONArray("result");
 
         for (Object tx : jsonArray) {
@@ -67,7 +67,7 @@ public class BitcoinJsonRpcServiceImpl implements BitcoinJsonRpcService {
     @Override
     public List<GetAddressesByLabel> getAddressesByLabel(String user_name) {
         List<GetAddressesByLabel> list = new ArrayList<>();
-        JSONObject jsonObject = bitcoinJsonRPC.sendJsonRpc("getaddressesbylabel", user_name).getJSONObject("result");
+        JSONObject jsonObject = bitcoinJsonRPC.requestJsonRpc("getaddressesbylabel", user_name).getJSONObject("result");
         Iterator<String> iterator = jsonObject.keys();
 
         while (iterator.hasNext()) {
@@ -82,7 +82,7 @@ public class BitcoinJsonRpcServiceImpl implements BitcoinJsonRpcService {
 
     @Override
     public BigDecimal getReceivedByLabel(String user_name) {
-        return bitcoinJsonRPC.sendJsonRpc("getreceivedbylabel", user_name).getBigDecimal("result").setScale(8, RoundingMode.HALF_EVEN);
+        return bitcoinJsonRPC.requestJsonRpc("getreceivedbylabel", user_name).getBigDecimal("result").setScale(8, RoundingMode.HALF_EVEN);
     }
 
     @Override
@@ -91,30 +91,35 @@ public class BitcoinJsonRpcServiceImpl implements BitcoinJsonRpcService {
         User user = (User) httpSession.getAttribute("member");
         getNewAddressPost.setUser_name(user.getUser_name());
         getNewAddressPost.setUser_id(user.getUser_id());
-        getNewAddressPost.setAddress(bitcoinJsonRPC.sendJsonRpc("getnewaddress", getNewAddressPost.getUser_name()).getString("result"));
+        getNewAddressPost.setAddress(bitcoinJsonRPC.requestJsonRpc("getnewaddress", getNewAddressPost.getUser_name()).getString("result"));
         jsonRpcDbMapper.getNewAddressAndInsertDb(getNewAddressPost);
     }
 
     @Override
+    @Transactional
     public void withdrawBitcoinAndInsertDb(WithdrawPost withdrawPost, Principal principal, HttpSession httpSession) {
         User user = (User) httpSession.getAttribute("member");
         withdrawPost.setUser_id(user.getUser_id());
         // get set service fees
         withdrawPost.setService_fees(jsonRpcDbMapper.getServiceFees());
         // get set user bitcoin balance
-        withdrawPost.setUser_balance(bitcoinJsonRPC.sendJsonRpc("getreceivedbylabel", principal.getName()).getBigDecimal("result").setScale(8, RoundingMode.HALF_EVEN));
+        withdrawPost.setUser_balance(bitcoinJsonRPC.requestJsonRpc("getreceivedbylabel", principal.getName()).getBigDecimal("result").setScale(8, RoundingMode.HALF_EVEN));
 
         //fee_amount is 0.10220000 fee is 0.00102200
         BigDecimal serviceFeeAmount =
                 (withdrawPost.getUser_balance().multiply(BigDecimal.valueOf(withdrawPost.getService_fees())).setScale(8, RoundingMode.HALF_EVEN))
                         .divide(HUNDRED_PERCENT, 8, RoundingMode.HALF_EVEN);
-        //System.out.println("fee_amount is " + fee_amount + " fee is " + fee_amount.divide(HUNDRED_PERCENT, 8, RoundingMode.HALF_EVEN));
         System.out.println(serviceFeeAmount);
 
+        // 0.00919800
         BigDecimal amountToBeSentWithoutFees = withdrawPost.getUser_balance().subtract(serviceFeeAmount).setScale(8, RoundingMode.HALF_EVEN);
         System.out.println(amountToBeSentWithoutFees);
 
-        System.out.println(withdrawPost.toString());
+        bitcoinJsonRPC.requestJsonRpc("sendtoaddress", withdrawPost.getWithdraw_to());
+
+
+
+
 
     }
 

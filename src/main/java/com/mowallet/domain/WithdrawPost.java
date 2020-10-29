@@ -32,4 +32,5 @@ public class WithdrawPost {
     private int user_id;
     private int service_fees;
     private BigDecimal user_balance;
+    private BigDecimal withdraw_balance_after_sending;
 }
