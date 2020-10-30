@@ -38,9 +38,7 @@ public class IndexController {
         model.addAttribute("GetAddressesByLabel", jsonRpcDbService.getUserCreatedAddress(user.getUser_id()));
         // Address Balance
         UserBalance userBalance = bitcoinJsonRpcService.getBalances(principal.getName());
-        if (userBalance.getTrusted().signum() == 0) {
-            userBalance.setTrusted(BigDecimal.ZERO);
-        }
+
         model.addAttribute("userBalance", userBalance);
         model.addAttribute("service_fees", jsonRpcDbService.getServiceFees());
         return "pages/index/index";

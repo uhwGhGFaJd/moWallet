@@ -36,10 +36,10 @@
                 <div class="col-sm-6 col-lg-3 mb-3 mb-lg-5">
                     <div class="card h-100">
                         <div class="card-body">
-                            <h6 class="card-subtitle mb-2">Total Received amount</h6>
+                            <h6 class="card-subtitle mb-2">UNCONFIRMED BALANCE</h6>
                             <div class="row align-items-center gx-2">
                                 <div class="col">
-                                    <span class="js-counter display-4 text-dark">0</span>
+                                    <span class="js-counter display-4 text-dark" th:text="${userBalance.untrusted_pending}">0</span>
                                     <span class="text-body font-size-sm ml-1">BTC</span>
                                 </div>
                             </div>

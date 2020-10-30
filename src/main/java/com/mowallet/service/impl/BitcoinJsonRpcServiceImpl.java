@@ -40,8 +40,8 @@ public class BitcoinJsonRpcServiceImpl implements BitcoinJsonRpcService {
     public void walletInit() {
         JSONArray jsonArray = bitcoinJsonRPC.requestJsonRpc("listwallets", null, true).getJSONArray("result");
         if (!jsonArray.isEmpty()) {
-            for (Object tx : jsonArray) {
-                bitcoinJsonRPC.requestJsonRpc("unloadwallet", null, true, tx.toString());
+            for (Object ob : jsonArray) {
+                bitcoinJsonRPC.requestJsonRpc("unloadwallet", null, true, ob.toString());
             }
         }
     }
@@ -49,6 +49,11 @@ public class BitcoinJsonRpcServiceImpl implements BitcoinJsonRpcService {
     @Override
     public void loadUserWallet(String user_name) {
         bitcoinJsonRPC.requestJsonRpc("loadwallet", user_name, false, user_name);
+    }
+
+    @Override
+    public void unLoadWallet(String user_name) {
+        bitcoinJsonRPC.requestJsonRpc("unloadwallet", user_name, false);
     }
 
     @Override

@@ -17,6 +17,8 @@ public interface BitcoinJsonRpcService {
 
     void loadUserWallet(String user_name);
 
+    void unLoadWallet(String user_name);
+
     List<GetUserLast10Transactions> getUserLast10Transactions(String user_name);
 
     List<GetAddressesByLabel> getAddressesByLabel(String user_name);

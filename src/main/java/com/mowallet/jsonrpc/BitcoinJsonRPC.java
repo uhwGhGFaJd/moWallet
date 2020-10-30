@@ -27,7 +27,7 @@ public class BitcoinJsonRPC {
         this.jsonRpcDbMapper = jsonRpcDbMapper;
     }
 
-    public JSONObject requestJsonRpc(String method, String user_name, boolean initMode, Object... parameters) {
+    public JSONObject requestJsonRpc(String method, String user_name, boolean rootMode, Object... parameters) {
         JSONObject bitcoinRpc = new JSONObject();
         bitcoinRpc.put("jsonrpc", "1.0");
         bitcoinRpc.put("id", "1");
@@ -43,12 +43,11 @@ public class BitcoinJsonRPC {
         }
 
         String tracUrl;
-        if (initMode) {
+        if (rootMode) {
             tracUrl = "http://127.0.0.1:18332/";
         } else {
             tracUrl = "http://127.0.0.1:18332/wallet/" + user_name;
         }
-
         String tracUsername = "bitcoin";
         String tracPassword = "J9JkYnPiXWqgRzg3vAA";
 
