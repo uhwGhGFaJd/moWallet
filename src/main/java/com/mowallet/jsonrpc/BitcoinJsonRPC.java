@@ -27,22 +27,28 @@ public class BitcoinJsonRPC {
         this.jsonRpcDbMapper = jsonRpcDbMapper;
     }
 
-    public JSONObject requestJsonRpc(String method, Object... parameters) {
+    public JSONObject requestJsonRpc(String method, String user_name, boolean initMode, Object... parameters) {
         JSONObject bitcoinRpc = new JSONObject();
-        bitcoinRpc.put("jsonrpc", "2.0");
+        bitcoinRpc.put("jsonrpc", "1.0");
         bitcoinRpc.put("id", "1");
         bitcoinRpc.put("method", method);
         bitcoinRpc.put("params", parameters);
 
         if (parameters != null) {
             JSONArray paramArray = new JSONArray();
-            for (Object baz : parameters) {
-                paramArray.put(baz);
+            for (Object ob : parameters) {
+                paramArray.put(ob);
             }
             bitcoinRpc.put("params", paramArray);
         }
 
-        String tracUrl = "http://127.0.0.1:18332";
+        String tracUrl;
+        if (initMode) {
+            tracUrl = "http://127.0.0.1:18332/";
+        } else {
+            tracUrl = "http://127.0.0.1:18332/wallet/" + user_name;
+        }
+
         String tracUsername = "bitcoin";
         String tracPassword = "J9JkYnPiXWqgRzg3vAA";
 
@@ -50,7 +56,7 @@ public class BitcoinJsonRPC {
 
         try {
             URL url = new URL(tracUrl);
-            URLConnection conn = null;
+            URLConnection conn;
 
             conn = url.openConnection();
 
@@ -70,7 +76,6 @@ public class BitcoinJsonRPC {
 
             BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String line;
-            jsonText = new StringBuilder();
             while ((line = rd.readLine()) != null) {
                 jsonText.append(line);
             }

@@ -1,6 +1,7 @@
 package com.mowallet.controller;
 
 import com.mowallet.domain.User;
+import com.mowallet.domain.UserBalance;
 import com.mowallet.service.BitcoinJsonRpcService;
 import com.mowallet.service.JsonRpcDbService;
 import org.springframework.stereotype.Controller;
@@ -9,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.security.Principal;
 
 /**
@@ -37,11 +37,11 @@ public class IndexController {
         // My Address list
         model.addAttribute("GetAddressesByLabel", jsonRpcDbService.getUserCreatedAddress(user.getUser_id()));
         // Address Balance
-        BigDecimal userBalance = bitcoinJsonRpcService.getReceivedByLabel(principal.getName());
-        if (userBalance.signum() == 0) {
-            userBalance = BigDecimal.ZERO;
+        UserBalance userBalance = bitcoinJsonRpcService.getBalances(principal.getName());
+        if (userBalance.getTrusted().signum() == 0) {
+            userBalance.setTrusted(BigDecimal.ZERO);
         }
-        model.addAttribute("getreceivedbylabel", userBalance);
+        model.addAttribute("userBalance", userBalance);
         model.addAttribute("service_fees", jsonRpcDbService.getServiceFees());
         return "pages/index/index";
     }

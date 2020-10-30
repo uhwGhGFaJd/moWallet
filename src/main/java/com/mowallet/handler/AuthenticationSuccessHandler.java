@@ -1,6 +1,7 @@
 package com.mowallet.handler;
 
 
+import com.mowallet.service.BitcoinJsonRpcService;
 import com.mowallet.service.LoginService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
@@ -16,9 +17,11 @@ import java.io.IOException;
 public class AuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
     private final LoginService loginService;
+    private final BitcoinJsonRpcService bitcoinJsonRpcService;
 
-    public AuthenticationSuccessHandler(LoginService loginService) {
+    public AuthenticationSuccessHandler(LoginService loginService, BitcoinJsonRpcService bitcoinJsonRpcService) {
         this.loginService = loginService;
+        this.bitcoinJsonRpcService = bitcoinJsonRpcService;
     }
 
 
@@ -31,7 +34,8 @@ public class AuthenticationSuccessHandler extends SavedRequestAwareAuthenticatio
             String redirectUrl = (String) session.getAttribute("prevPage");
             // save userInfo
             session.setAttribute("member", loginService.getUserInfo(authentication.getName()));
-
+            // load user wallet
+            bitcoinJsonRpcService.loadUserWallet(authentication.getName());
             if (redirectUrl != null) {
                 session.removeAttribute("prevPage");
                 getRedirectStrategy().sendRedirect(httpServletRequest, response, redirectUrl);

@@ -37,9 +37,24 @@ public class BitcoinJsonRpcServiceImpl implements BitcoinJsonRpcService {
     }
 
     @Override
+    public void walletInit() {
+        JSONArray jsonArray = bitcoinJsonRPC.requestJsonRpc("listwallets", null, true).getJSONArray("result");
+        if (!jsonArray.isEmpty()) {
+            for (Object tx : jsonArray) {
+                bitcoinJsonRPC.requestJsonRpc("unloadwallet", null, true, tx.toString());
+            }
+        }
+    }
+
+    @Override
+    public void loadUserWallet(String user_name) {
+        bitcoinJsonRPC.requestJsonRpc("loadwallet", user_name, false, user_name);
+    }
+
+    @Override
     public List<GetUserLast10Transactions> getUserLast10Transactions(String user_name) {
         List<GetUserLast10Transactions> list = new ArrayList<>();
-        JSONObject jsonObject = bitcoinJsonRPC.requestJsonRpc("listtransactions", user_name, 10);
+        JSONObject jsonObject = bitcoinJsonRPC.requestJsonRpc("listtransactions", user_name, false, user_name, 10);
         JSONArray jsonArray = jsonObject.getJSONArray("result");
 
         for (Object tx : jsonArray) {
@@ -67,7 +82,7 @@ public class BitcoinJsonRpcServiceImpl implements BitcoinJsonRpcService {
     @Override
     public List<GetAddressesByLabel> getAddressesByLabel(String user_name) {
         List<GetAddressesByLabel> list = new ArrayList<>();
-        JSONObject jsonObject = bitcoinJsonRPC.requestJsonRpc("getaddressesbylabel", user_name).getJSONObject("result");
+        JSONObject jsonObject = bitcoinJsonRPC.requestJsonRpc("getaddressesbylabel", user_name, false).getJSONObject("result");
         Iterator<String> iterator = jsonObject.keys();
 
         while (iterator.hasNext()) {
@@ -81,8 +96,13 @@ public class BitcoinJsonRpcServiceImpl implements BitcoinJsonRpcService {
     }
 
     @Override
-    public BigDecimal getReceivedByLabel(String user_name) {
-        return bitcoinJsonRPC.requestJsonRpc("getreceivedbylabel", user_name).getBigDecimal("result").setScale(8, RoundingMode.HALF_EVEN);
+    public UserBalance getBalances(String user_name) {
+        UserBalance userBalance = new UserBalance();
+        JSONObject jsonObject = bitcoinJsonRPC.requestJsonRpc("getbalances", user_name, false).getJSONObject("result").getJSONObject("mine");
+        userBalance.setTrusted(jsonObject.getBigDecimal("trusted").setScale(8, RoundingMode.HALF_EVEN));
+        userBalance.setUntrusted_pending(jsonObject.getBigDecimal("untrusted_pending").setScale(8, RoundingMode.HALF_EVEN));
+        userBalance.setImmature(jsonObject.getBigDecimal("immature").setScale(8, RoundingMode.HALF_EVEN));
+        return userBalance;
     }
 
     @Override
@@ -91,7 +111,7 @@ public class BitcoinJsonRpcServiceImpl implements BitcoinJsonRpcService {
         User user = (User) httpSession.getAttribute("member");
         getNewAddressPost.setUser_name(user.getUser_name());
         getNewAddressPost.setUser_id(user.getUser_id());
-        getNewAddressPost.setAddress(bitcoinJsonRPC.requestJsonRpc("getnewaddress", getNewAddressPost.getUser_name()).getString("result"));
+        getNewAddressPost.setAddress(bitcoinJsonRPC.requestJsonRpc("getnewaddress", getNewAddressPost.getUser_name(), false).getString("result"));
         jsonRpcDbMapper.getNewAddressAndInsertDb(getNewAddressPost);
     }
 
@@ -103,7 +123,7 @@ public class BitcoinJsonRpcServiceImpl implements BitcoinJsonRpcService {
         // get set service fees
         withdrawPost.setService_fees(jsonRpcDbMapper.getServiceFees());
         // get set user bitcoin balance
-        withdrawPost.setUser_balance(bitcoinJsonRPC.requestJsonRpc("getreceivedbylabel", principal.getName()).getBigDecimal("result").setScale(8, RoundingMode.HALF_EVEN));
+        withdrawPost.setUser_balance(bitcoinJsonRPC.requestJsonRpc("getreceivedbylabel", principal.getName(), false).getBigDecimal("result").setScale(8, RoundingMode.HALF_EVEN));
 
         //fee_amount is 0.10220000 fee is 0.00102200
         BigDecimal serviceFeeAmount =
@@ -115,10 +135,7 @@ public class BitcoinJsonRpcServiceImpl implements BitcoinJsonRpcService {
         BigDecimal amountToBeSentWithoutFees = withdrawPost.getUser_balance().subtract(serviceFeeAmount).setScale(8, RoundingMode.HALF_EVEN);
         System.out.println(amountToBeSentWithoutFees);
 
-        bitcoinJsonRPC.requestJsonRpc("sendtoaddress", withdrawPost.getWithdraw_to());
-
-
-
+        bitcoinJsonRPC.requestJsonRpc("sendtoaddress", withdrawPost.getWithdraw_to(), false);
 
 
     }

@@ -46,7 +46,7 @@ public class WithdrawController {
     public String withdrawPage(Model model, Principal principal) {
 
         model.addAttribute("service_fees", jsonRpcDbService.getServiceFees());
-        model.addAttribute("user_balance", bitcoinJsonRpcService.getReceivedByLabel(principal.getName()));
+        model.addAttribute("user_balance", bitcoinJsonRpcService.getBalances(principal.getName()));
         return "pages/withdraw/withdraw";
     }
 
@@ -57,12 +57,12 @@ public class WithdrawController {
             return "redirect:/withdraw";
         }
 
-        if (bitcoinJsonRpcService.getReceivedByLabel(principal.getName()).compareTo(withdrawPost.getWithdraw_amount()) == -1) {
+        /*if (bitcoinJsonRpcService.getBalances(principal.getName()).compareTo(withdrawPost.getWithdraw_amount()) == -1) {
             redirectAttributes.addFlashAttribute("msg", alertUtil.makeAlert("danger", "Not enough amount."));
             return "redirect:/withdraw";
         } else {
             bitcoinJsonRpcService.withdrawBitcoinAndInsertDb(withdrawPost, principal, httpSession);
-        }
+        }*/
 
         return "redirect:/withdraw";
     }
