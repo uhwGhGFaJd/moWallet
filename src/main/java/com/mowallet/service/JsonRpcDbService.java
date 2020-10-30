@@ -3,7 +3,6 @@ package com.mowallet.service;
 import com.mowallet.domain.GetAddressesByLabel;
 import com.mowallet.domain.WithdrawPost;
 import com.mowallet.domain.getNewAddressPost;
-import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 

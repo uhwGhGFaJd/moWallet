@@ -59,8 +59,7 @@ public class BitcoinJsonRpcServiceImpl implements BitcoinJsonRpcService {
     @Override
     public List<GetUserLast10Transactions> getUserLast10Transactions(String user_name) {
         List<GetUserLast10Transactions> list = new ArrayList<>();
-        JSONObject jsonObject = bitcoinJsonRPC.requestJsonRpc("listtransactions", user_name, false, user_name, 10);
-        JSONArray jsonArray = jsonObject.getJSONArray("result");
+        JSONArray jsonArray = bitcoinJsonRPC.requestJsonRpc("listtransactions", user_name, false, "*", 10).getJSONArray("result");
 
         for (Object tx : jsonArray) {
             JSONObject jsonParser = new JSONObject(tx.toString());
