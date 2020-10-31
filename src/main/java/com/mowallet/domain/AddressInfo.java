@@ -11,7 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class TransactionsDetail {
+public class AddressInfo {
     private String address;
     private String scriptPubKey;
     private boolean ismine;

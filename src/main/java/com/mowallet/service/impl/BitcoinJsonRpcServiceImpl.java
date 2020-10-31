@@ -147,11 +147,11 @@ public class BitcoinJsonRpcServiceImpl implements BitcoinJsonRpcService {
     }
 
     @Override
-    public TransactionsDetail getTransactionsDetail(String address, HttpSession httpSession) {
+    public AddressInfo getAddressInfo(String address, HttpSession httpSession) {
         User user = (User) httpSession.getAttribute("member");
         JSONObject jsonObject = bitcoinJsonRPC.requestJsonRpc("getaddressinfo", user.getUser_name(), false, address).getJSONObject("result");
 
-        return TransactionsDetail.builder()
+        return AddressInfo.builder()
                 .address(jsonObject.getString("address"))
                 .scriptPubKey(jsonObject.getString("scriptPubKey"))
                 .ismine(jsonObject.getBoolean("ismine"))

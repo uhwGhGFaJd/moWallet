@@ -1,0 +1,127 @@
+<th:block layout:decorate="~{layout/layout}" layout:fragment="content">
+    <section class="pt-5">
+        <div class="container">
+            <div class="page-header">
+                <div class="row align-items-end">
+                    <div class="col-sm mb-2 mb-sm-0">
+                        <h1 class="page-title" th:text="|Transaction Detail 😎 - ${transactionDetail.address}|"></h1>
+                    </div>
+
+                    <div class="col-sm-auto">
+                        <a class="btn btn-primary" href="">
+                            Withdraw
+                        </a>
+                        <a class="btn btn-primary" href="">
+                            Create New Address
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-6">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label class="form-control-label">Address</label>
+                                <input type="text" class="form-control" th:value="${addressInfo.address}" disabled>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label class="form-control-label">scriptPubKey</label>
+                                        <input type="text" class="form-control" th:value="${addressInfo.scriptPubKey}" disabled>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label class="form-control-label">ismine</label>
+                                        <input type="text" class="form-control" th:value="${addressInfo.ismine}" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label class="form-control-label">solvable</label>
+                                        <input type="text" class="form-control" th:value="${addressInfo.solvable}" disabled>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label class="form-control-label">desc</label>
+                                        <input type="text" class="form-control" th:value="${addressInfo.desc}" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label class="form-control-label">iswatchonly</label>
+                                        <input type="text" class="form-control" th:value="${addressInfo.iswatchonly}" disabled>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label class="form-control-label">isscript</label>
+                                        <input type="text" class="form-control" th:value="${addressInfo.isscript}" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label class="form-control-label">iswitness</label>
+                                        <input type="text" class="form-control" th:value="${addressInfo.iswitness}" disabled>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label class="form-control-label">witness_version</label>
+                                        <input type="text" class="form-control" th:value="${addressInfo.witness_version}" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label class="form-control-label">witness_program</label>
+                                        <input type="text" class="form-control" th:value="${addressInfo.witness_program}" disabled>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label class="form-control-label">pubkey</label>
+                                        <input type="text" class="form-control" th:value="${addressInfo.pubkey}" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label class="form-control-label">ischange</label>
+                                        <input type="text" class="form-control" th:value="${addressInfo.ischange}" disabled>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label class="form-control-label">timestamp</label>
+                                        <input type="text" class="form-control" th:value="${addressInfo.timestamp}" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <button class="btn btn-sm btn-primary btn-block mt-2" type="submit">Send
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+</th:block>

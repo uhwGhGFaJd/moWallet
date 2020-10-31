@@ -28,5 +28,5 @@ public interface BitcoinJsonRpcService {
 
     void withdrawBitcoinAndInsertDb(WithdrawPost withdrawPost, Principal principal, HttpSession httpSession);
 
-    TransactionsDetail getTransactionsDetail(String address, HttpSession httpSession);
+    AddressInfo getAddressInfo(String address, HttpSession httpSession);
 }
