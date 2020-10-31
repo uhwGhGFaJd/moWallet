@@ -39,11 +39,13 @@ public class BitcoinJsonRpcServiceImpl implements BitcoinJsonRpcService {
     @Override
     public void walletInit() {
         JSONArray jsonArray = bitcoinJsonRPC.requestJsonRpc("listwallets", null, true).getJSONArray("result");
-        if (!jsonArray.isEmpty()) {
-            for (Object ob : jsonArray) {
-                bitcoinJsonRPC.requestJsonRpc("unloadwallet", null, true, ob.toString());
-            }
+        if (jsonArray.isEmpty()) {
+            return;
         }
+        for (Object ob : jsonArray) {
+            bitcoinJsonRPC.requestJsonRpc("unloadwallet", null, true, ob.toString());
+        }
+
     }
 
     @Override
@@ -144,5 +146,25 @@ public class BitcoinJsonRpcServiceImpl implements BitcoinJsonRpcService {
 
     }
 
+    @Override
+    public TransactionsDetail getTransactionsDetail(String address, HttpSession httpSession) {
+        User user = (User) httpSession.getAttribute("member");
+        JSONObject jsonObject = bitcoinJsonRPC.requestJsonRpc("getaddressinfo", user.getUser_name(), false, address).getJSONObject("result");
 
+        return TransactionsDetail.builder()
+                .address(jsonObject.getString("address"))
+                .scriptPubKey(jsonObject.getString("scriptPubKey"))
+                .ismine(jsonObject.getBoolean("ismine"))
+                .solvable(jsonObject.getBoolean("solvable"))
+                .desc(jsonObject.getString("desc"))
+                .iswatchonly(jsonObject.getBoolean("iswatchonly"))
+                .isscript(jsonObject.getBoolean("isscript"))
+                .iswitness(jsonObject.getBoolean("iswitness"))
+                .witness_version(jsonObject.getInt("witness_version"))
+                .witness_program(jsonObject.getString("witness_program"))
+                .pubkey(jsonObject.getString("pubkey"))
+                .ischange(jsonObject.getBoolean("ischange"))
+                .timestamp(BitcoinUtil.getTimestampToDate(BitcoinUtil.optInt(jsonObject, "timestamp")))
+                .build();
+    }
 }
