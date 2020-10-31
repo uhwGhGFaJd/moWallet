@@ -4,7 +4,7 @@
             <div class="page-header">
                 <div class="row align-items-end">
                     <div class="col-sm mb-2 mb-sm-0">
-                        <h1 class="page-title" th:text="|Transaction Detail 😎 - ${transactionDetail.address}|"></h1>
+                        <h1 class="page-title" th:text="|Transaction Detail 😎 - ${addressInfo.address}|"></h1>
                     </div>
 
                     <div class="col-sm-auto">
@@ -110,10 +110,6 @@
                                         <input type="text" class="form-control" th:value="${addressInfo.timestamp}" disabled>
                                     </div>
                                 </div>
-                            </div>
-                            <div>
-                                <button class="btn btn-sm btn-primary btn-block mt-2" type="submit">Send
-                                </button>
                             </div>
                         </div>
 

@@ -21,7 +21,7 @@ public class AddressInfoController {
         this.bitcoinJsonRpcService = bitcoinJsonRpcService;
     }
 
-    @GetMapping("/transaction/{address}")
+    @GetMapping("/addressInfo/{address}")
     public String AddressInfoPage(@PathVariable String address, Model model, HttpSession httpSession){
 
         model.addAttribute("addressInfo", bitcoinJsonRpcService.getAddressInfo(address, httpSession));
