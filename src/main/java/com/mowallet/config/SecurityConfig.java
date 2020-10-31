@@ -61,6 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/create/user").permitAll()
                 .antMatchers("/create/user/post").permitAll()
                 .antMatchers("/a/**").hasAuthority("ROLE_ADMIN")
+                .antMatchers("/create/user").anonymous()
                 .antMatchers("/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
 
                 .and()
@@ -68,7 +69,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/login")
                 .loginProcessingUrl("/auth")
-                .defaultSuccessUrl("/index")
+                .defaultSuccessUrl("/")
                 .usernameParameter("username")
                 .passwordParameter("password")
                 .successHandler(authenticationSuccessHandler).failureHandler(authenticationFailureHandler)
@@ -77,7 +78,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .addLogoutHandler(authenticationLogoutHandler)
-                .logoutSuccessUrl("/")
+                .logoutSuccessUrl("/login")
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID")
 

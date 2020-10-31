@@ -17,7 +17,6 @@ public class AuthenticationLogoutHandler implements LogoutHandler {
         this.bitcoinJsonRpcService = bitcoinJsonRpcService;
     }
 
-
     @Override
     public void logout(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) {
         bitcoinJsonRpcService.unLoadWallet(authentication.getName());

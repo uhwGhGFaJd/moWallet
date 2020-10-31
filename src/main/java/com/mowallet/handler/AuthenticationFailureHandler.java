@@ -17,7 +17,6 @@ import java.io.IOException;
 @Component
 public class AuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
-
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
 
@@ -32,9 +31,7 @@ public class AuthenticationFailureHandler extends SimpleUrlAuthenticationFailure
         } else if (authException instanceof AccountExpiredException) {
             response.sendRedirect(request.getContextPath() + "/login?state=erroruser");
         } else if (authException instanceof DisabledException) {
-            response.sendRedirect(request.getContextPath() + "/wuVa9O7ISu/login?state=disabled");
+            response.sendRedirect(request.getContextPath() + "/login?state=disabled");
         }
-
     }
-
 }
