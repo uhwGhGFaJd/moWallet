@@ -124,7 +124,7 @@
                                 <span class="legend-indicator bg-success" th:classappend="${transactions.confirmations} == '0' ? 'bg-danger'"></span><span th:text="|${transactions.confirmations} Confirms|"></span>
                             </td>
                             <td>
-                                <a href="">View</a>
+                                <a th:href="@{/transaction/{address}(address=${transactions.address})}">View</a>
                             </td>
                         </tr>
                         </tbody>
