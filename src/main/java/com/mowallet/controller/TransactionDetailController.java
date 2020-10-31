@@ -13,18 +13,18 @@ import javax.servlet.http.HttpSession;
  * Github       : https://github.com/uhwGhGFaJd
  */
 @Controller
-public class TransactionsDetailController {
+public class TransactionDetailController {
 
     private final BitcoinJsonRpcService bitcoinJsonRpcService;
 
-    public TransactionsDetailController(BitcoinJsonRpcService bitcoinJsonRpcService) {
+    public TransactionDetailController(BitcoinJsonRpcService bitcoinJsonRpcService) {
         this.bitcoinJsonRpcService = bitcoinJsonRpcService;
     }
 
     @GetMapping("/transaction/{address}")
-    public String transactionsDetailPage(@PathVariable String address, Model model, HttpSession httpSession){
+    public String transactionDetailPage(@PathVariable String address, Model model, HttpSession httpSession){
 
-        model.addAttribute("transactionsDetail", bitcoinJsonRpcService.getTransactionsDetail(address, httpSession));
-        return null;
+        model.addAttribute("transactionDetail", bitcoinJsonRpcService.getTransactionsDetail(address, httpSession));
+        return "pages/transactionDetail/transactionDetail";
     }
 }
