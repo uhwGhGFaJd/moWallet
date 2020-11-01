@@ -95,7 +95,6 @@
                             <th>Category</th>
                             <th>Fees</th>
                             <th>Status</th>
-                            <th>Info</th>
                         </tr>
                         </thead>
 
@@ -123,9 +122,6 @@
                             <td>
                                 <span class="legend-indicator bg-success" th:classappend="${transactions.confirmations} == '0' ? 'bg-danger'"></span><span th:text="|${transactions.confirmations} Confirms|"></span>
                             </td>
-                            <td>
-                                <a th:href="@{/addressInfo/{address}(address=${transactions.address})}">View</a>
-                            </td>
                         </tr>
                         </tbody>
                     </table>
@@ -151,6 +147,7 @@
                             <th>Date</th>
                             <th>Address</th>
                             <th>Address Description</th>
+                            <th>Info</th>
                         </tr>
 
                         </thead>
@@ -165,6 +162,9 @@
                             </td>
                             <td>
                                 <span class="d-block h5 mb-0" th:text="${getAddressesByLabel.address_desc}">Director</span>
+                            </td>
+                            <td>
+                                <a th:href="@{/addressInfo/{address}(address=${getAddressesByLabel.address})}">View</a>
                             </td>
                         </tr>
                         </tbody>

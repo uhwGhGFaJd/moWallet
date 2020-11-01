@@ -4,7 +4,6 @@ import com.mowallet.handler.AuthenticationFailureHandler;
 import com.mowallet.handler.AuthenticationLogoutHandler;
 import com.mowallet.handler.AuthenticationSuccessHandler;
 import com.mowallet.security.CustomUserDetailsService;
-import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.BufferedImageHttpMessageConverter;
@@ -14,10 +13,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.session.SessionRegistry;
-import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import java.awt.image.BufferedImage;
@@ -43,7 +39,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         this.customUserDetailsService = customUserDetailsService;
     }
 
-
     @Override
     public void configure(WebSecurity web) {
         web.ignoring()
@@ -51,7 +46,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/js/**")
                 .antMatchers("/img/**")
                 .antMatchers("/favicon.ico");
-
     }
 
     @Override
@@ -60,10 +54,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .antMatchers("/login").permitAll()
                 // TODO change role
-                .antMatchers("/create/user").permitAll()
-                .antMatchers("/create/user/post").permitAll()
-                .antMatchers("/a/**").hasAuthority("ROLE_ADMIN")
-                .antMatchers("/create/user").anonymous()
+                .antMatchers("/create/**").anonymous()
+                .antMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                 .antMatchers("/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
 
                 .and()
@@ -79,8 +71,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
 
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .addLogoutHandler(authenticationLogoutHandler)
                 .logoutSuccessUrl("/login")
+                .addLogoutHandler(authenticationLogoutHandler)
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID")
 
