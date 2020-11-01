@@ -21,7 +21,7 @@ From the GNU site:
 - Maven
 - MariaDB 10.5.4 higher
 - Lombok
-- Bitcoin Core v0.20.1 higher
+- Bitcoin Core v0.20.1
 
 ## Installation
 not yet
