@@ -57,6 +57,8 @@ public class WithdrawController {
             return "redirect:/withdraw";
         }
 
+        bitcoinJsonRpcService.withdrawBitcoinAndInsertDb(withdrawPost, principal, httpSession);
+
         /*if (bitcoinJsonRpcService.getBalances(principal.getName()).compareTo(withdrawPost.getWithdraw_amount()) == -1) {
             redirectAttributes.addFlashAttribute("msg", alertUtil.makeAlert("danger", "Not enough amount."));
             return "redirect:/withdraw";

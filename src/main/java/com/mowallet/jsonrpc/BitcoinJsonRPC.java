@@ -63,6 +63,7 @@ public class BitcoinJsonRPC {
             String basicAuth = "Basic " + new String(new Base64().encode(userpass.getBytes()));
             conn.setRequestProperty("Authorization", basicAuth);
             conn.setRequestProperty("Content-Type", "application/json");
+            conn.setRequestProperty("Accept", "application/json");
             conn.setDoOutput(true);
 
             OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
@@ -85,9 +86,7 @@ public class BitcoinJsonRPC {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
-        return new JSONObject(jsonText.toString());
+        return new JSONObject(jsonText.toString().trim());
     }
 }
 
