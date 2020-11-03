@@ -1,40 +1,65 @@
 package com.mowallet.bitcoinrpc;
 
-import com.mowallet.mapper.JsonRpcDbMapper;
 import org.apache.commons.codec.binary.Base64;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.stereotype.Component;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.URL;
-import java.net.URLConnection;
+import java.io.*;
+import java.net.*;
 
 /**
  * Created by uhwGhGFaJd@protonmail.com on 2020/10/22
  * Github       : https://github.com/uhwGhGFaJd
  */
 
-@Component
+
 public class BitcoinJsonRPC {
 
-    private final JsonRpcDbMapper jsonRpcDbMapper;
+    public BitcoinJsonRPC(String rpcUser, String rpcPassword, String rpcHost, String rpcPort, String rpcWallet){
+        BitcoinRpcConfig bitcoinRpcConfig = BitcoinRpcConfig.builder()
+                .rpcHost("http://127.0.0.1")
+                .rpcUsername("Nitin")
+                .rpcPassword("magicmaker07")
+                .rpcPort("18332")
+                .rpcWallet("admin")
+                .build();
 
-    public BitcoinJsonRPC(JsonRpcDbMapper jsonRpcDbMapper) {
-        this.jsonRpcDbMapper = jsonRpcDbMapper;
+        System.out.println(bitcoinRpcConfig.getBaseUrl());
+
+        try {
+            URL url = new URL(bitcoinRpcConfig.getBaseUrl());
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestProperty("Authorization", bitcoinRpcConfig.getBasicAuth());
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setRequestMethod("POST");
+            connection.setDoOutput(true);
+
+            OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
+
+            JSONObject bitcoinRpc = new JSONObject();
+            bitcoinRpc.put("jsonrpc", "1.0");
+            bitcoinRpc.put("id", "1");
+            bitcoinRpc.put("method", "getbalances");
+
+            out.write(bitcoinRpc.toString());
+            out.flush();
+            out.close();
+
+            if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+                System.out.println("asd");
+            }
+
+        }catch (Exception ex){
+
+        }
+
+
     }
+
 
     public JSONObject requestJsonRpc(String method, String user_name, boolean rootMode, Object... parameters) {
 
-        BitcoinRpcConfig bitcoinRpcConfig = BitcoinRpcConfig.builder()
-                .url("http://127.0.0.1")
-                .rpcUser("Nitin")
-                .rpcPassword("magicmaker07")
-                .rpcPort("18332")
-                .build();
+
 
         JSONObject bitcoinRpc = new JSONObject();
         bitcoinRpc.put("jsonrpc", "1.0");
@@ -72,7 +97,6 @@ public class BitcoinJsonRPC {
             String basicAuth = "Basic " + new String(new Base64().encode(userpass.getBytes()));
             conn.setRequestProperty("Authorization", basicAuth);
             conn.setRequestProperty("Content-Type", "application/json");
-            conn.setRequestProperty("Accept", "application/json");
             conn.setDoOutput(true);
 
             OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
