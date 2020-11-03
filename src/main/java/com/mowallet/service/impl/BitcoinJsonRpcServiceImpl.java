@@ -1,7 +1,7 @@
 package com.mowallet.service.impl;
 
 import com.mowallet.domain.*;
-import com.mowallet.jsonrpc.BitcoinJsonRPC;
+import com.mowallet.bitcoinrpc.BitcoinJsonRPC;
 import com.mowallet.mapper.JsonRpcDbMapper;
 import com.mowallet.service.BitcoinJsonRpcService;
 import com.mowallet.utils.BitcoinUtil;

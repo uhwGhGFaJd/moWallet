@@ -1,4 +1,4 @@
-package com.mowallet.jsonrpc;
+package com.mowallet.bitcoinrpc;
 
 import com.mowallet.mapper.JsonRpcDbMapper;
 import org.apache.commons.codec.binary.Base64;
