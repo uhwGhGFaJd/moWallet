@@ -28,6 +28,14 @@ public class BitcoinJsonRPC {
     }
 
     public JSONObject requestJsonRpc(String method, String user_name, boolean rootMode, Object... parameters) {
+
+        BitcoinRpcConfig bitcoinRpcConfig = BitcoinRpcConfig.builder()
+                .url("http://127.0.0.1")
+                .rpcUser("Nitin")
+                .rpcPassword("magicmaker07")
+                .rpcPort("18332")
+                .build();
+
         JSONObject bitcoinRpc = new JSONObject();
         bitcoinRpc.put("jsonrpc", "1.0");
         bitcoinRpc.put("id", "1");
@@ -41,6 +49,7 @@ public class BitcoinJsonRPC {
             }
             bitcoinRpc.put("params", paramArray);
         }
+
 
         String tracUrl;
         if (rootMode) {
