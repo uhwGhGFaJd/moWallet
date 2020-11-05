@@ -24,7 +24,8 @@ From the GNU site:
 - Bitcoin Core v0.20.1
 
 ## Installation
-not yet
+
+
 
 ## Support
  1. Review the [open issues](https://github.com/uhwGhGFaJd/moWallet/issues).
