@@ -4,14 +4,11 @@ import com.mowallet.bitcoinrpc.BitcoinRpcConfig;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.http.HttpRequest;
 
 @RunWith(SpringRunner.class)
 class MoWalletApplicationTests {

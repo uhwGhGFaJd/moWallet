@@ -4,8 +4,13 @@ import org.apache.commons.codec.binary.Base64;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.*;
-import java.net.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
 
 /**
  * Created by uhwGhGFaJd@protonmail.com on 2020/10/22
@@ -17,11 +22,11 @@ public class BitcoinJsonRPC {
 
     public BitcoinJsonRPC(String rpcUser, String rpcPassword, String rpcHost, String rpcPort, String rpcWallet){
         BitcoinRpcConfig bitcoinRpcConfig = BitcoinRpcConfig.builder()
-                .rpcHost("http://127.0.0.1")
-                .rpcUsername("Nitin")
-                .rpcPassword("magicmaker07")
-                .rpcPort("18332")
-                .rpcWallet("admin")
+                .rpcHost(rpcUser)
+                .rpcUsername(rpcPassword)
+                .rpcPassword(rpcHost)
+                .rpcPort(rpcPort)
+                .rpcWallet(rpcWallet)
                 .build();
 
         System.out.println(bitcoinRpcConfig.getBaseUrl());
@@ -52,8 +57,6 @@ public class BitcoinJsonRPC {
         }catch (Exception ex){
 
         }
-
-
     }
 
 
