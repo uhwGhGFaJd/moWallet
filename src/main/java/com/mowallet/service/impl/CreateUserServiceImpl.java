@@ -1,6 +1,5 @@
 package com.mowallet.service.impl;
 
-import com.mowallet.bitcoinrpc.BitcoinJsonRPC;
 import com.mowallet.domain.CreateUser;
 import com.mowallet.mapper.CreateUserMapper;
 import com.mowallet.service.CreateUserService;
